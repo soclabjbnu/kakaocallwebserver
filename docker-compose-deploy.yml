@@ -1,0 +1,56 @@
+version: '3.3'
+
+services:
+  db:
+    # Heroku supports version 13 PostgreSQL
+    image: postgres
+    container_name: db
+    networks:
+      - dbnetwork
+    ports:
+      - "5432:5432"
+    expose:
+      - "5432"
+
+    # Docker containers are ephemeral meaning when the container stops running all information is lost.
+    # This would obviously be a problem for our database!
+    # The solution is to create a volumes mount called postgres_data and then bind it to
+    # a dedicated directory within the container at the location /var/lib/postgresql/data/.
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+
+    # The final step is to add a trust authentication to the environment for the db.
+    # For large databases with many database users it is recommended to be more explicit with permissions,
+    # but this setting is a good choice when there is just one developer.
+    environment:
+      - POSTGRES_HOST_AUTH_METHOD=trust
+
+    restart: always
+
+  gcloud:
+    image: google/cloud-sdk
+
+    volumes:
+      - gcp-creds:/creds
+      - .:/app
+    working_dir: /app
+    environment:
+      - CLOUDSDK_CONFIG=/creds
+      - GOOGLE_CLOUD_PROJECT=kakaocall-0929
+      - GOOGLE_APPLICATION_CREDENTIALS="/serviceAccountKey.json"
+    networks:
+      - dbnetwork
+    depends_on:
+      - db
+    links:
+      - db:db
+
+
+networks:
+  dbnetwork:
+    driver: bridge
+
+volumes:
+  gcp-creds:
+  postgres_data:
+

@@ -1,0 +1,171 @@
+{% load static %}
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8">
+
+    <link rel="stylesheet" href="{% static 'style.css' %}" />
+
+    <script src="https://www.gstatic.com/firebasejs/9.1.3/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.1.3/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/ui/6.0.1/firebase-ui-auth__ko.js"></script>
+    <script>
+      // Import the functions you need from the SDKs you need
+      // import {initializeApp}  from 'firebase/app';
+      // import { getAuth } from 'firebase/auth';
+      // import { firebase } from "firebase/compat/app"
+      // import { initializeApp } from "firebase/app";
+      // import { getAnalytics } from "firebase/analytics";
+      // TODO: Add SDKs for Firebase products that you want to use
+      // https://firebase.google.com/docs/web/setup#available-libraries
+
+      // Your web app's Firebase configuration
+      // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+      const firebaseConfig = {
+          apiKey: "AIzaSyAZhMolIYBnuoPDlLgtgOzRmMKLRj4H5rc",
+          authDomain: "kakaocall-0929.firebaseapp.com",
+          projectId: "kakaocall-0929",
+          storageBucket: "kakaocall-0929.appspot.com",
+          messagingSenderId: "591295561379",
+          appId: "1:591295561379:web:0b2a899e2149b2078c4916"
+        };
+      // Initialize Firebase
+      // const app = initializeApp(firebaseConfig);
+      // const analytics = getAnalytics(app);
+      // firebase = initializeApp(firebaseConfig);
+      firebase.initializeApp(firebaseConfig);
+
+      console.log("### firebase demo.html")
+      console.log(firebase);
+      console.log("### firebase.auth() demo.html")
+      console.log(firebase.auth());
+      console.log(firebase.auth().currentUser);
+
+      // const auth = getAuth(app);
+      // console.log("### localStorage")
+
+    </script>
+
+    <script type="text/javascript">
+
+        initApp = function() {
+        firebase.auth().onAuthStateChanged(function(user) {
+          console.log('#### 21) onAuthStateChanged is called');
+          if (user) {
+            // User is signed in.
+            /*
+            var displayName = user.displayName;
+            var email = user.email;
+            var emailVerified = user.emailVerified;
+            var photoURL = user.photoURL;
+            var uid = user.uid;
+            var phoneNumber = user.phoneNumber;
+            var providerData = user.providerData;
+            */
+            user.getIdToken().then(function(accessToken) {
+                console.log('#### 9) log-in in initApp');
+                console.log(accessToken);
+            });
+            console.log('#### 20) USER ID');
+            console.log(user.uid);
+          } else {
+            // User is signed out.
+            console.log('#### 11) singed out in initApp');
+            // console.log(accessToken);
+            location.href='../login/';
+          }
+        }, function(error) {
+          console.log(error);
+         });
+        };
+
+       window.addEventListener('load', function() {
+        initApp()
+       });
+
+
+      //console.log(localStorage['my_firebase']);
+      //let my_firebase = JSON.parse(localStorage['my_firebase']);
+      console.log('### 3) demo.html');
+      console.log(document.cookie);
+
+      function logOut () {
+          console.log('### 4) demo.html logOut');
+          firebase.auth().signOut();
+          location.href='../login/';
+      }
+    </script>
+
+    <title>Django GAE Placeholder</title>
+    <p style="text-align: left; margin-left: 20%"><strong>{{ test }}</strong></p>
+    <p style="text-align: left; margin-left: 20%">{{ test2 }}</p>
+    {%  for d in doc_list %}
+      <li style="text-align: left; margin-left: 20%">{{ d.last }}, {{ d.first }}, {{ d.born }}</li>
+    {% endfor %}
+  </head>
+
+
+  <body>
+      <h1>Django GAE Placeholder Page</h1>
+
+    <p>
+    <form action="{% url 'demo:input_data' %}" method="post">
+      {%  csrf_token %}
+      {{  form.as_p }}
+      <button type="submit" class="btn btn-primary">데이터 입력 (Django Form.as_p)</button>
+    </form>
+    </p>
+
+    <p>
+    <form action="{% url 'demo:input_data' %}" method="post">
+      {%  csrf_token %}
+      {{ form.as_table }}
+      <button type="submit" class="btn btn-primary">데이터 입력 (Django Form.as_table)</button>
+    </form>
+    </p>
+
+<!--
+      <div class="form-group">
+          <label for="last">First name</label>
+          <input type="text" class="form-control"
+                 name="last" id="last">
+      </div>
+      <div class="form-group">
+          <label for="first">Last name</label>
+          <input type="text" class="form-control"
+                 name="first" id="first">
+      </div>
+      <div class="form-group">
+          <label for="born">Year of birth</label>
+          <input type="text" class="form-control"
+                 name="born" id="born">
+      </div>
+      <button type="submit" class="btn btn-primary">데이터 입력</button>
+      <input type="submit" value="데이터 입력">
+-->
+
+    <button id="log-out" type="button" onclick="logOut()">나가기</button>
+
+    <p>한글 테스트입니다. Here's a sunrise...</p>
+    <p>1</p>
+    <img src="{% static 'river-sunrise.jpg' %}" />
+    <p>2</p>
+    <img src="{% static 'river-sunrise.jpg' %}" />
+    <p>3</p>
+    <img src="{% static 'river-sunrise.jpg' %}" />
+    <p>4</p>
+    <img src="{% static 'river-sunrise.jpg' %}" />
+    <p>5</p>
+    <img src="{% static 'river-sunrise.jpg' %}" />
+    <p>6</p>
+    <img src="{% static 'river-sunrise.jpg' %}" />
+    <p>7</p>
+    <img src="{% static 'river-sunrise.jpg' %}" />
+    <p>8</p>
+    <img src="{% static 'river-sunrise.jpg' %}" />
+
+  </body>
+
+
+</html>
+

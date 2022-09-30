@@ -1,0 +1,23 @@
+{% load static %}
+<!doctype html>
+<html lang="kr">
+  <head>
+    <title>Django GAE Placeholder Privacy Policy</title>
+      <p style="text-align: left; margin-left: 20%"><strong>{{ test }}</strong></p>
+      <p style="text-align: left; margin-left: 20%">{{ test2 }}</p>
+      {%  for d in doc_list %}
+        <li style="text-align: left; margin-left: 20%">{{ d.last }}, {{ d.first }}, {{ d.born }}</li>
+      {% endfor %}
+    <link rel="stylesheet" href="{% static 'style.css' %}" />
+  </head>
+
+
+  <body>
+    <h1>Django GAE Placeholder Privacy Policy</h1>
+    <p>이 페이지는 Privacy Policy 페이지입니다.</p>
+
+  </body>
+
+
+</html>
+

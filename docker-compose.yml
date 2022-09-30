@@ -1,0 +1,84 @@
+version: '3.3'
+
+# containers we want to have running within Docker host
+# two separate containers: app(Django local server) and db (PostgreSQL)
+services:
+  ################################### Local PostgreSQL: Begin ################################################
+  #postgres:
+  #  # Heroku supports version 13 PostgreSQL
+  #  image: postgres
+  #  ports:
+  #    - "5432:5432"
+
+  #  # Docker containers are ephemeral meaning when the container stops running all information is lost.
+  #  # This would obviously be a problem for our database!
+  #  # The solution is to create a volumes mount called postgres_data and then bind it to
+  #  # a dedicated directory within the container at the location /var/lib/postgresql/data/.
+  #  volumes:
+  #    - postgres_data:/var/lib/postgresql/data/
+
+  #  # The final step is to add a trust authentication to the environment for the db.
+  #  # For large databases with many database users it is recommended to be more explicit with permissions,
+  #  # but this setting is a good choice when there is just one developer.
+  #  environment:
+  #    - POSTGRES_HOST_AUTH_METHOD=trust
+  ################################### Local PostgreSQL: End ################################################
+
+  ################################### Cloud SQL: Begin ################################################
+  #cloudsql-proxy:
+  #  container_name: cloudsql-proxy
+  #  image: gcr.io/cloudsql-docker/gce-proxy:1.31.2
+  #  command: /cloud_sql_proxy -instances=djangogaeproject:asia-northeast3:kakaocallpostgresqlinstance=tcp:0.0.0.0:5432 -credential_file=/secrets/cloudsql/serviceAccountKey.json -verbose=true
+  #  ports:
+  #    - "5432:5432"
+  #  volumes:
+  #    - ./serviceAccountKey.json:/secrets/cloudsql/serviceAccountKey.json
+  #  restart: always
+  ################################### Cloud SQL: End ################################################
+  db:
+    # Heroku supports version 13 PostgreSQL
+    image: postgres:13
+    ports:
+      - "5432:5432"
+
+    # Docker containers are ephemeral meaning when the container stops running all information is lost.
+    # This would obviously be a problem for our database!
+    # The solution is to create a volumes mount called postgres_data and then bind it to
+    # a dedicated directory within the container at the location /var/lib/postgresql/data/.
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+
+    # The final step is to add a trust authentication to the environment for the db.
+    # For large databases with many database users it is recommended to be more explicit with permissions,
+    # but this setting is a good choice when there is just one developer.
+    environment:
+      - POSTGRES_HOST_AUTH_METHOD=trust
+
+    restart: always
+
+  app:
+    build:
+      context: .
+    ports:
+      - 8000:8000
+    volumes:
+        # volumes mount automatically syncs the Docker filesystem with our local computer's filesystem.
+        # This if we make a change to the code within Docker it will automatically be synced with the local filesystem.
+        # It maps the /app directory as a volume, so our container can access realtime updates 
+        # as we’re making changes to our project.
+        - ./app:/app
+        - ./static:/static
+    command: python -u manage.py runserver 0.0.0.0:8000
+
+
+    depends_on:
+      ################################### Local PostgreSQL: Begin ################################################
+      #- postgres
+      ################################### Local PostgreSQL: End ################################################
+      - db
+
+    environment:
+      - DEBUG=1
+
+volumes:
+  postgres_data:

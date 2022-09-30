@@ -1,0 +1,48 @@
+version: '3.3'
+
+# containers we want to have running within Docker host
+# two separate containers: app(Django local server) and db (PostgreSQL)
+services:
+  db:
+    # Heroku supports version 13 PostgreSQL
+    image: postgres:13
+    container_name: db
+    ports:
+      - "5432:5432"
+
+    # Docker containers are ephemeral meaning when the container stops running all information is lost.
+    # This would obviously be a problem for our database!
+    # The solution is to create a volumes mount called postgres_data and then bind it to
+    # a dedicated directory within the container at the location /var/lib/postgresql/data/.
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+
+    # The final step is to add a trust authentication to the environment for the db.
+    # For large databases with many database users it is recommended to be more explicit with permissions,
+    # but this setting is a good choice when there is just one developer.
+    environment:
+      - POSTGRES_HOST_AUTH_METHOD=trust
+
+  app:
+    build:
+      context: .
+
+    ports:
+      - 8000:8000
+    volumes:
+        # volumes mount automatically syncs the Docker filesystem with our local computer's filesystem.
+        # This if we make a change to the code within Docker it will automatically be synced with the local filesystem.
+        # It maps the /app directory as a volume, so our container can access realtime updates 
+        # as we’re making changes to our project.
+        - ./app:/app
+        - ./static:/static
+    command: python -u manage.py runserver 0.0.0.0:8000
+
+    depends_on:
+      - db
+
+    environment:
+      - DEBUG=1
+
+volumes:
+  postgres_data:
