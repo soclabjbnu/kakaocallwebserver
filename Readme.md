@@ -51,3 +51,8 @@
   - Compute Engine을 사용하기 때문에 Deploy 과정이 필요 없음
   - yml 파일의 version을 3.3으로 변경하여야 함
   - firebase의 데이터가 변경된 경우에 웹페이지에 즉시 반영되지 않는 부분 수정 필요
+
+3. 2022년 10월 1일
+3.1 진행 상황
+   - 프로젝트 directory: kakaocall-1001 (project ID=kakaocall-0929로 유지) 
+   - 새로운 Repo 생성: semifive-rvv 관련 문제
