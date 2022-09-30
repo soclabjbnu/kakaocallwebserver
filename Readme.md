@@ -58,6 +58,7 @@
      2) git add <file명> 또는 git rm <file명>
      3) git commit -m "comment"
      4) git push
+     5) git fetch origin
    - Compute Engine (or AWS)에서의 절차
      1) git Repo cloning: git clone https://github.com/soclabjbnu/kakaocallwebserver.git KakaocallWebServer
      2) DB migration과 superuser 생성
