@@ -33,9 +33,6 @@
     - docker-compose run app python manage.py makemigrations
     - docker-compose run app python manage.py createsuperuser
 
-- 스크린 샷 (기록을 위하여 남김)
-    - 서비스 계정
-  ![](ScreenShots/ServiceAccount.png)
 
 2. 2022년 9월 30일
 2.1 진행 상황
