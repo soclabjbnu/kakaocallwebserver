@@ -58,3 +58,14 @@
      2) git add <file명> 또는 git rm <file명>
      3) git commit -m "comment"
      4) git push
+   - Compute Engine (or AWS)에서의 절차
+     1) git Repo cloning: git clone https://github.com/soclabjbnu/kakaocallwebserver.git KakaocallWebServer
+     2) DB migration과 superuser 생성
+        - sudo docker-compose run app python manage.py makemigrations
+        - sudo docker-compose run app python manage.py migrate
+        - sudo docker-compose run app python manage.py makemigrations
+        - sudo docker-compose run app python manage.py createsuperuser
+     3) 웹 서버 실행: sudo make local
+     4) 웹 서버 중지:
+        - Ctrl-C
+        - sudo docker-compose down
