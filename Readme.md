@@ -56,3 +56,8 @@
 3.1 진행 상황
    - 프로젝트 directory: kakaocall-1001 (project ID=kakaocall-0929로 유지) 
    - 새로운 Repo 생성: semifive-rvv 관련 문제
+   - git 절차
+     1) 프로그램 변경
+     2) git add <file명> 또는 git rm <file명>
+     3) git commit -m "comment"
+     4) git push
