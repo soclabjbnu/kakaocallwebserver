@@ -31,4 +31,3 @@ ENV GOOGLE_APPLICATION_CREDENTIALS="/serviceAccountKey.json"
 #RUN source /Users/jong-yeollee/Projects/Delivery_App/Web/GoogleCloud/venv/bin/activate
 #ENV PATH="/Users/jong-yeollee/Projects/Delivery_App/Web/GoogleCloud/venv/bin:$PATH"
 USER django-user
-

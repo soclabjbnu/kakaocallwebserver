@@ -7,12 +7,12 @@ from firebase_admin import credentials
 from firebase_admin import firestore
 from django.shortcuts import render, redirect
 from .forms import PersonForm
-import psutil
+#import psutil
 
-print("####### Processes in views: begin")
-for proc in psutil.process_iter():
-    print(proc.name())
-print("####### Processes in views: end")
+#print("####### Processes in views: begin")
+#for proc in psutil.process_iter():
+#    print(proc.name())
+#print("####### Processes in views: end")
 
 # Create your views here.
 def demo(request):

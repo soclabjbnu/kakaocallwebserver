@@ -19,7 +19,7 @@ from pathlib import Path
 from urllib.parse import urlparse
 from google.cloud import secretmanager
 
-import psutil
+#import psutil
 
 
 
@@ -228,10 +228,10 @@ DATABASES['default']['PASSWORD'] = 'bellbell'
 print('DATABASE SETTINGS: ')
 print(DATABASES)
 
-print("####### Processes: begin")
-for proc in psutil.process_iter():
-    print(proc.name())
-print("####### Processes: end")
+#print("####### Processes: begin")
+#for proc in psutil.process_iter():
+#    print(proc.name())
+#print("####### Processes: end")
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
