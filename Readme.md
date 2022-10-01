@@ -70,3 +70,4 @@
      4) 웹 서버 중지:
         - Ctrl-C
         - sudo docker-compose down
+     5) 
